@@ -328,7 +328,18 @@ end
 
 -- find lag time based on rx time and 10ths of seconds since the hour tx time
 function timeDelta10(rxTime,txHour10)
-    local rxTimeParts = os.date("*t",rxTime)
+    rxTime = tonumber(rxTime) or 0
+    rxTime = math.floor(rxTime) -- Force to an integer
+    
+    -- Check if rxTime is still invalid
+    if rxTime <= 0 then
+        print("rxTime is invalid or too small:", rxTime)
+        rxTimeParts = nil -- Handle as invalid
+    else
+        print("Valid rxTime being passed to os.date:", rxTime)
+        rxTimeParts = os.date("*t", rxTime)
+    end
+
     local rxFracTime = rxTime-math.floor(rxTime) -- fractional time
     -- note: this is rounding the difference down to significant digits. 
     -- Since the fractional tenth of second is unknown (could be 0.09)
@@ -339,7 +350,17 @@ function timeDelta10(rxTime,txHour10)
 end
 
 function timeDelta10v(rxTime,txHour10)
-    local rxTimeParts = os.date("*t",rxTime)
+    rxTime = tonumber(rxTime) or 0
+    rxTime = math.floor(rxTime) -- Force to an integer
+    
+    -- Check if rxTime is still invalid
+    if rxTime <= 0 then
+        print("rxTime is invalid or too small:", rxTime)
+        rxTimeParts = nil -- Handle as invalid
+    else
+        print("Valid rxTime being passed to os.date:", rxTime)
+        rxTimeParts = os.date("*t", rxTime)
+    end
     local rxFracTime = rxTime-math.floor(rxTime) -- fractional time
     -- note: this is rounding the difference down to significant digits. 
     -- Since the fractional tenth of second is unknown (could be 0.09)
